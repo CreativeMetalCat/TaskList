@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <script src ="generation/element_generation.js"></script>
+    <link href ="index.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="brandNameContainer">
+        <h1 class="brandName"><a href = about.html>TODO list element generation test</a></h1>
+        <h3 class="brandName">Made by MetalCat</h3>
+    </div>
+    <div class = "menuPanel">
+        <button onclick="loadFromLocalData()">Generate page</button>
+        <p>File to load from: <input id = "fileSelect" type="file" accept="application/json"></p>
+        <button onclick="loadFromFileData('fileSelect')">Load from selected file</button>
+    </div>
+    <div class = "list" id="generated">
+        <div class = "listElement">
+            <h3>This is preview of what list element will look like</h3>
+            <div class = "listElementContent">
+                <p>Some description</p>
+                <ul>
+                    <li><input type="checkbox"></li>
+                    <li><input type="checkbox"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<footer>
+    <p>An open source web-based todo list</p>
+    <a href="github.com">This site's github repo</a>
+</footer>
+
+</body>
+</html>
