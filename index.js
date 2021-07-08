@@ -1,19 +1,7 @@
-//this hides the actual name display block and displays <input> element
-//the reason why don't use css things is because this is activated by click not hover
-function startNameEdit(listElementId){
-    document.getElementById(listElementId+"_name_edit").style.display = "block";
-    document.getElementById(listElementId+"_name_display").style.display ="none";
-}
+let currentSelection = 0;
 
-//this displays the actual name display block and hides <input> element
-function endNameEdit(listElementId){
-    document.getElementById(listElementId+"_name_display").style.display = "block";
-    document.getElementById(listElementId+"_name_edit").style.display ="none";
-}
-
-//changes text of the name display
-function onNameEdit(listElementId){
-    document.getElementById(listElementId+"_name_display").innerText = document.getElementById(listElementId+"_name_edit").value;
+function onSelected(selection){
+    alert("hello" + currentSelection.toString());
 }
 
 function loadFromData(data){
@@ -77,6 +65,9 @@ function createTextDisplayAndEdit(name,idName,cssClassName,defaultText){
     textInputElement.className = cssClassName;
 
     //set proper callbacks
+    rootElement.ondrag = onSelected;
+
+
     textElement.onclick = function(e){
         let edit = document.getElementById(idName+"_"+name+"_edit");
         edit.style.display = "block";
