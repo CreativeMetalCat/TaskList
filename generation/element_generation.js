@@ -1,3 +1,20 @@
+//this hides the actual name display block and displays <input> element
+//the reason why don't use css things is because this is activated by click not hover
+function startNameEdit(listElementId){
+    document.getElementById(listElementId+"_name_edit").style.display = "block";
+    document.getElementById(listElementId+"_name_display").style.display ="none";
+}
+
+//this displays the actual name display block and hides <input> element
+function endNameEdit(listElementId){
+    document.getElementById(listElementId+"_name_display").style.display = "block";
+    document.getElementById(listElementId+"_name_edit").style.display ="none";
+}
+
+//changes text of the name display
+function onNameEdit(listElementId){
+    document.getElementById(listElementId+"_name_display").innerText = document.getElementById(listElementId+"_name_edit").value;
+}
 
 function loadFromData(data){
     let resultNode = document.getElementById("generated");
@@ -7,7 +24,7 @@ function loadFromData(data){
             let loadedData = JSON.parse(data);
             for (let i = 0; i < loadedData.todo.length; i++) {
                 try {
-                    resultNode.appendChild(generateListElementFromData(loadedData.todo[i]));
+                    resultNode.appendChild(generateListElementFromData(loadedData.todo[i],i));
                 }
                 catch (e) {
                     alert(e.message)
@@ -42,25 +59,54 @@ function loadFromFileData(inputFieldId) {
 }
 
 //creates the element based on inputed json data
-function generateListElementFromData(data){
+function generateListElementFromData(data,index){
     if(data != null){
         //(Maybe use input for text displays in the future)
         //main element of the element
         let rootElement = document.createElement("div");
         //where the name will be displayed
-        let nameElement = document.createElement("h3");
+        let nameElement = document.createElement("p");
+        //where the name need to be inputed
+        let nameInputElement = document.createElement("input");
         //where the description will be displayed
         let descElement = document.createElement("p");
+        //where the description will be inputed
+        let descInputElement = document.createElement("input");
         //this is the part that will only display if user hovers over the rootElement
         let contentRootElement = document.createElement("div");
 
-
+        //set proper css classes
         rootElement.className = "listElement";
-        nameElement.innerText = data.name;
-        descElement.innerText = data.description;
+        nameElement.className = "listElementName";
+        nameInputElement.className = "listElementName";
+        descInputElement.className = "listElementDescription";
+        descElement.className = "listElementDescription";
         contentRootElement.className = "listElementContent";
 
+        //set element id
+        //Id is just name + index so that it would not repeat
+        let idName = data.name + index.toString();
+        rootElement.id = idName;
+
+
+        //set values from the data
+        nameElement.innerText = data.name;
+        nameInputElement.value = data.name;
+        nameElement.id = idName + "_name_display";
+        nameInputElement.id = idName + "_name_edit";
+        descInputElement.value = data.description;
+        descElement.innerText = data.description;
+
+        //set proper callbacks
+        nameElement.onclick = function(e){startNameEdit(idName);}.bind(this,idName);
+        nameInputElement.oninput = function(e){onNameEdit(idName);}.bind(this,idName);
+        nameInputElement.onblur = function (e){endNameEdit(idName);}.bind(this,idName);
+
+        nameInputElement.style.display = "none";
+
+        //add children
         rootElement.appendChild(nameElement);
+        rootElement.appendChild(nameInputElement);
         contentRootElement.appendChild(descElement);
 
         rootElement.appendChild(contentRootElement);

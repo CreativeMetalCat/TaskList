@@ -1,0 +1,54 @@
+.listElement
+{
+    /*Border*/
+    border: black 1px;
+    box-shadow: black ;
+    background-color: #b8b4b4;
+    border-radius: 10px;
+
+    /*Margins*/
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+
+    display: list-item;
+
+    /* Keyword values */
+    min-height: 3.5em;
+
+}
+
+.listElement:hover .listElementContent{
+    display: block;
+}
+
+.listElementContent{
+    display: none;
+}
+
+/*this mimics h3 style(more or less)*/
+.listElementName{
+    font-size: large;
+    font-weight: 700;// bold
+}
+
+.listElementDescription {
+
+}
+
+.listElement:hover
+{
+    /*Border*/
+    border: black 1px;
+    box-shadow: black ;
+    background-color: #93bffa;
+    border-radius: 10px;
+
+    /*Margins*/
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5px;
+
+    /* Keyword values */
+    min-height: 3.5em;
+}
