@@ -58,56 +58,68 @@ function loadFromFileData(inputFieldId) {
 
 }
 
+//this creates a div element with <p> and <input> element inside
+function createTextDisplayAndEdit(name,idName,cssClassName,defaultText){
+    let rootElement = document.createElement("div");
+
+    //where the text will be displayed
+    let textElement = document.createElement("p");
+    //where the text need to be inputed
+    let textInputElement = document.createElement("input");
+
+    textElement.id = idName + "_"+name+"_"+"display";
+    textInputElement.id = idName + "_"+name+"_"+"edit";
+
+    textInputElement.value = defaultText;
+    textElement.innerText = defaultText;
+
+    textElement.className = cssClassName;
+    textInputElement.className = cssClassName;
+
+    //set proper callbacks
+    textElement.onclick = function(e){
+        document.getElementById(idName+"_"+name+"_edit").style.display = "block";
+        document.getElementById(idName+"_"+name+"_display").style.display ="none";
+    }.bind(this,idName,name);
+
+    textInputElement.oninput = function(e){
+        document.getElementById(idName+"_"+name+"_display").innerText = document.getElementById(idName+"_"+name+"_edit").value;
+    }.bind(this,idName,name);
+
+    textInputElement.onblur = function (e){
+        document.getElementById(idName+"_"+name+"_display").style.display = "block";
+        document.getElementById(idName+"_"+name+"_edit").style.display ="none";
+    }.bind(this,idName,name);
+
+    textInputElement.style.display = "none";
+
+    rootElement.appendChild(textElement);
+    rootElement.appendChild(textInputElement);
+
+    return rootElement;
+}
+
 //creates the element based on inputed json data
 function generateListElementFromData(data,index){
     if(data != null){
         //(Maybe use input for text displays in the future)
         //main element of the element
         let rootElement = document.createElement("div");
-        //where the name will be displayed
-        let nameElement = document.createElement("p");
-        //where the name need to be inputed
-        let nameInputElement = document.createElement("input");
-        //where the description will be displayed
-        let descElement = document.createElement("p");
-        //where the description will be inputed
-        let descInputElement = document.createElement("input");
+
         //this is the part that will only display if user hovers over the rootElement
         let contentRootElement = document.createElement("div");
 
         //set proper css classes
         rootElement.className = "listElement";
-        nameElement.className = "listElementName";
-        nameInputElement.className = "listElementName";
-        descInputElement.className = "listElementDescription";
-        descElement.className = "listElementDescription";
-        contentRootElement.className = "listElementContent";
 
         //set element id
         //Id is just name + index so that it would not repeat
         let idName = data.name + index.toString();
         rootElement.id = idName;
 
-
-        //set values from the data
-        nameElement.innerText = data.name;
-        nameInputElement.value = data.name;
-        nameElement.id = idName + "_name_display";
-        nameInputElement.id = idName + "_name_edit";
-        descInputElement.value = data.description;
-        descElement.innerText = data.description;
-
-        //set proper callbacks
-        nameElement.onclick = function(e){startNameEdit(idName);}.bind(this,idName);
-        nameInputElement.oninput = function(e){onNameEdit(idName);}.bind(this,idName);
-        nameInputElement.onblur = function (e){endNameEdit(idName);}.bind(this,idName);
-
-        nameInputElement.style.display = "none";
-
         //add children
-        rootElement.appendChild(nameElement);
-        rootElement.appendChild(nameInputElement);
-        contentRootElement.appendChild(descElement);
+        rootElement.appendChild(createTextDisplayAndEdit("name",idName,"listElementName",data.name));
+        rootElement.appendChild(createTextDisplayAndEdit("description",idName,"listElementDescription",data.name));
 
         rootElement.appendChild(contentRootElement);
         //this breaks some css
