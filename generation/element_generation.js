@@ -58,7 +58,7 @@ function loadFromFileData(inputFieldId) {
 
 }
 
-//this creates a div element with <p> and <input> element inside
+//this creates a div element with "p" and "input" element inside
 function createTextDisplayAndEdit(name,idName,cssClassName,defaultText){
     let rootElement = document.createElement("div");
 
@@ -78,8 +78,11 @@ function createTextDisplayAndEdit(name,idName,cssClassName,defaultText){
 
     //set proper callbacks
     textElement.onclick = function(e){
-        document.getElementById(idName+"_"+name+"_edit").style.display = "block";
+        let edit = document.getElementById(idName+"_"+name+"_edit");
+        edit.style.display = "block";
+        edit.focus();
         document.getElementById(idName+"_"+name+"_display").style.display ="none";
+
     }.bind(this,idName,name);
 
     textInputElement.oninput = function(e){
@@ -109,6 +112,7 @@ function generateListElementFromData(data,index){
         //this is the part that will only display if user hovers over the rootElement
         let contentRootElement = document.createElement("div");
 
+        contentRootElement.className = "listElementContent";
         //set proper css classes
         rootElement.className = "listElement";
 
@@ -119,7 +123,7 @@ function generateListElementFromData(data,index){
 
         //add children
         rootElement.appendChild(createTextDisplayAndEdit("name",idName,"listElementName",data.name));
-        rootElement.appendChild(createTextDisplayAndEdit("description",idName,"listElementDescription",data.name));
+        contentRootElement.appendChild(createTextDisplayAndEdit("description",idName,"listElementDescription",data.name));
 
         rootElement.appendChild(contentRootElement);
         //this breaks some css
